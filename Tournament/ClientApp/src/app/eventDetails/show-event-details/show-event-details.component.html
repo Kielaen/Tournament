@@ -1,0 +1,73 @@
+<h1 id="tableLabel">Event Details</h1>
+
+
+<p *ngIf="!EventDetailList"><em>Loading...</em></p>
+
+<table class='table table-striped table-bordered hover' aria-labelledby="tableLabel" *ngIf="EventDetailList">
+  <thead>
+    <tr>
+      <th>Event Detail ID</th>
+      <th>Event Detail Name</th>
+      <th>Event Detail Number</th>
+      <th>Event Detail Odds</th>
+      <th>Finishing Position</th>
+      <th>First Timer</th>
+      <th *ngIf="isAuthenticated | async">Options</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let eventdetail of EventDetailList">
+      <td>{{ eventdetail.eventDetailID }}</td>
+      <td>{{ eventdetail.eventDetailName }}</td>
+      <td>{{ eventdetail.eventDetailNumber }}</td>
+      <td>{{ eventdetail.eventDetailOdd }}</td>
+      <td>{{ eventdetail.finishingPosition }}</td>
+      <td>{{ eventdetail.firstTimer }}</td>
+      <td *ngIf="isAuthenticated | async">
+        <button  type="button" class="btn btn-light mr-1"
+                data-toggle="modal" data-target="#exampleModal"
+                (click)="editEventDetail(eventdetail)"
+                data-backdrop="static" data-keyboard="false">
+          Edit
+        </button>
+        <button type="button" class="btn btn-light mr-1"
+                (click)="deleteEventDetail(eventdetail)">
+          Delete
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Button trigger modal -->
+<button *ngIf="isAuthenticated | async" type="button" class="btn btn-primary float-right m-2"
+        data-toggle="modal" data-target="#exampleModal"
+        (click)="addEventDetail()"
+        data-backdrop="static" data-keyboard="false">
+  Add Details
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{ModalTitle}}</h5>
+        <button type="button" class="close"
+                data-dismiss="modal" aria-label="Close"
+                (click)="closeClick()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-add-edit-event-details [eventdetail]="eventdetail" *ngIf="ActivateAddEditEventDetail">
+
+        </app-add-edit-event-details>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+

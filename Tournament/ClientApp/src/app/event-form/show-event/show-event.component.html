@@ -1,0 +1,74 @@
+<h1 id="tableLabel">Event</h1>
+
+
+<p *ngIf="!EventList"><em>Loading...</em></p>
+
+<table class='table table-striped table-bordered hover' aria-labelledby="tableLabel" *ngIf="EventList">
+  <thead>
+    <tr>
+      <th>Event ID</th>
+      <th>Event Name</th>
+      <th>Event Number</th>
+      <th>Event Date Time</th>
+      <th>Event End Date Time</th>
+      <th>Auto Close</th>
+      <th *ngIf="isAuthenticated | async">Options</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let event of EventList">
+      <td>{{ event.eventID }}</td>
+      <td>{{ event.eventName }}</td>
+      <td>{{ event.eventNumber }}</td>
+      <td>{{ event.eventDateTimeString }}</td>
+      <td>{{ event.eventEndDateTimeString }}</td>
+      <td>{{ event.autoClose }}</td>
+      <td *ngIf="isAuthenticated | async">
+        <button type="button" class="btn btn-light mr-1"
+                 data-toggle="modal" data-target="#exampleModal"
+                (click)="editEvent(event)"
+                data-backdrop="static" data-keyboard="false">
+          Edit
+        </button>
+        <button type="button" class="btn btn-light mr-1"
+                (click)="deleteEvent(event)"
+                >
+          Delete
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Button trigger modal -->
+<button *ngIf="isAuthenticated | async" type="button" class="btn btn-primary float-right m-2"
+        data-toggle="modal" data-target="#exampleModal"
+        (click)="addEvent()"
+        data-backdrop="static" data-keyboard="false">
+  Add Event
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{ModalTitle}}</h5>
+        <button type="button" class="close"
+                data-dismiss="modal" aria-label="Close"
+                (click)="closeClick()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-add-edit-event [eve]="eve" *ngIf="ActivateAddEditEvent">
+
+        </app-add-edit-event>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+

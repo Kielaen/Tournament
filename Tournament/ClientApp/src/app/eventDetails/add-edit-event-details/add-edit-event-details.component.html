@@ -1,0 +1,99 @@
+<form name="detailsForm" (ngSubmit)="onSubmit()" #detailsForm="ngForm">
+
+  <div class="form-group row">
+    <label class="col-sm-4 col-form-label">Event</label>
+    <div class="col-sm-8">
+      <select id="FK_EventID" name="FK_EventID" required class="form-control" ngModel [(ngModel)]="model.FK_EventID" #eventField="ngModel">
+        <option *ngFor="let e of EventList" value="{{e.eventID}}">
+          {{e.eventName}}
+        </option>
+      </select>
+      <div class="alert alert-danger" *ngIf="eventField.touched && !eventField.valid">
+        Event is required
+      </div>
+    </div>
+
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-4 col-form-label">Event Status</label>
+    <div class="col-sm-8">
+      <select class="form-control" required name="FK_EventDetailStatusID" [(ngModel)]="model.FK_EventDetailStatusID" ngModel #EventDetailStatusField="ngModel">
+        <option>---Select---</option>
+        <option *ngFor="let e of StatusList" value="{{e.eventDetailStatusID}}">
+          {{e.eventDetailStatusName}}
+        </option>
+      </select>
+      <div class="alert alert-danger" *ngIf="EventDetailStatusField.touched && !EventDetailStatusField.valid">
+        Event Status is required
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-4 col-form-label">Event Detail Name</label>
+    <div class="col-sm-8">
+      <input type="text" maxlength="50" name="EventDetailName" class="form-control" [(ngModel)]="model.EventDetailName" ngModel #EventDetailNameField="ngModel"
+             placeholder="Enter Event Detail Name" required />
+      <div class="alert alert-danger" *ngIf="EventDetailNameField.touched && !EventDetailStatusField.valid">
+        <div *ngIf="EventDetailNameField.errors.required"> Event name is required</div>
+        <div *ngIf="EventDetailNameField.errors.maxlength"> Event name must be max 50 characters</div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-sm-4 col-form-label">Event Detail Number</label>
+    <div class="col-sm-8">
+      <input type="number" required pattern="\d+" name="EventDetailNumber" class="form-control" [(ngModel)]="model.EventDetailNumber" ngModel #EventDetailNumberField="ngModel"
+             placeholder="Enter Event Detail Number" />
+      <div class="alert alert-danger" *ngIf="EventDetailNumberField.touched && !EventDetailNumberField.valid">
+        <div *ngIf="EventDetailNumberField.errors.required"> Event Number is required</div>
+        <div *ngIf="EventDetailNumberField.errors.pattern"> postive numbers only</div>
+
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-4 col-form-label">Event Detail Odds</label>
+    <div class="col-sm-8">
+      <input required type="number" max="100" min="0" name="EventDetailOdd" class="form-control" [(ngModel)]="model.EventDetailOdd" ngModel #EventDetailOddField="ngModel"
+             placeholder="Enter Event Detail Odds" />
+      <div class="alert alert-danger" *ngIf="EventDetailOddField.touched && !EventDetailOddField.valid">
+        <div *ngIf="EventDetailOddField.errors.required"> Event Odds are required</div>
+
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-4 col-form-label">Finishing Position</label>
+    <div class="col-sm-8">
+      <input type="number" min="0" required pattern="\d+" name="FinishingPosition" class="form-control" [(ngModel)]="model.FinishingPosition" ngModel #FinishingPositionField="ngModel"
+             placeholder="Enter Finishing Position" />
+      <div class="alert alert-danger" *ngIf="FinishingPositionField.touched && !FinishingPositionField.valid">
+        <div *ngIf="FinishingPositionField.errors.required"> Finishing Position is required</div>
+        <div *ngIf="EventDetailNumberField.errors.pattern"> postive numbers only</div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-4 col-form-label">First Timer</label>
+    <div class="col-sm-8">
+      <select required name="FirstTimer" class="form-control" [(ngModel)]="model.FirstTimer" ngModel #FirstTimerField="ngModel">
+        <option selected value="true">Yes</option>
+        <option value="false">No</option>
+      </select>
+      <div class="alert alert-danger" *ngIf="FirstTimerField.touched && !FirstTimerField.valid">
+        <div *ngIf="FinishingPositionField.errors.required"> Finishing Position is required</div>
+
+      </div>
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="!detailsForm.form.valid" (click)="addEventDetail()" *ngIf="eventdetail.EventDetailID == 0" class="btn btn-primary">
+    Add
+  </button>
+  <button type="submit" [disabled]="!detailsForm.form.valid" (click)="updateEventDetail(eventdetail.eventDetailID)" *ngIf="eventdetail.EventDetailID != 0" class="btn btn-primary">
+    Update
+  </button>
+</form>

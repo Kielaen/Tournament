@@ -1,0 +1,84 @@
+<h1 id="tableLabel">Tournaments</h1>
+
+<p *ngIf="!TournamentList"><em>Loading...</em></p>
+
+<div class="panel no-sort">
+
+  <div class="panel-body">
+    <table class='table table-striped table-bordered hover' aria-labelledby="tableLabel" *ngIf="TournamentList">
+      <thead>
+        <tr>
+          <th>
+            <div class="d-flex flex-row">
+              <input [(ngModel)]="TournamentIdFilter" class="form-control"
+                     (keyup)="FilterFn()" placeholder="Filter" />
+            </div>
+            Tournament ID
+          </th>
+          <th>
+            <div class="d-flex flex-row">
+              <input [(ngModel)]="TournamentNameFilter" class="form-control"
+                     (keyup)="FilterFn()" placeholder="Filter" />
+            </div>
+            Tournament Name
+          </th>
+          <th *ngIf="isAuthenticated | async">Options</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let t of TournamentList">
+          <td>{{ t.tournamentID }}</td>
+          <td>{{ t.tournamentName }}</td>
+
+          <td *ngIf="isAuthenticated | async">
+            <button type="button" class="btn btn-light mr-1"
+                    data-toggle="modal" data-target="#exampleModal"
+                    (click)="editTournament(t)"
+                    data-backdrop="static" data-keyboard="false">
+              Edit
+            </button>
+            <button type="button" class="btn btn-light mr-1"
+                    (click)="deleteTournament(t)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+
+<!-- Button trigger modal -->
+<button *ngIf="isAuthenticated | async" type="button" class="btn btn-primary float-right m-2"
+        data-toggle="modal" data-target="#exampleModal"
+        (click)="addTournament()"
+        data-backdrop="static" data-keyboard="false">
+  Add Tournament
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{ModalTitle}}</h5>
+        <button type="button" class="close"
+                data-dismiss="modal" aria-label="Close"
+                (click)="closeClick()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-add-edit-tournament [tournament]="tournament" *ngIf="ActivateAddEditTournament">
+
+        </app-add-edit-tournament>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
