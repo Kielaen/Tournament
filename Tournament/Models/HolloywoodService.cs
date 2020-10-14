@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -11,7 +12,14 @@ namespace Tournament.Models
 {
     public class HolloywoodService
     {
-       private readonly string _connectionStr = "Data Source=.\\SQLEXPRESS;Initial Catalog=HollywoodTest; Integrated Security=True;MultipleActiveResultSets=True";
+        private readonly IConfiguration _config;
+        private readonly string _connectionStr = "";
+        public HolloywoodService(IConfiguration config)
+        {
+            _config = config;
+            _connectionStr = _config.GetConnectionString("DefaultConnection");
+        }
+       
         public async Task<List<EventDetailViewModel>> GetEventDetails()
         {
             using (SqlConnection con = new SqlConnection(_connectionStr))
@@ -24,7 +32,6 @@ namespace Tournament.Models
                     SqlDataReader reader = await cmd.ExecuteReaderAsync();
 
                     List<EventDetailViewModel> list = new List<EventDetailViewModel>();
-                    // list.Add(new L_PayFrequency { PayFrequencyID = -1, Description = "--Select A Pay Interval--" });
                     while (reader.Read())
                     {
                         var record = new EventDetailViewModel
