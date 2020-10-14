@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Tournament.Data;
 using Tournament.Models;
+using Tournament.ViewModels;
 
 namespace Tournament.Controllers
 {
@@ -15,17 +16,21 @@ namespace Tournament.Controllers
     public class EventDetailsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly HolloywoodService _service;
 
-        public EventDetailsController(ApplicationDbContext context)
+        public EventDetailsController(ApplicationDbContext context, HolloywoodService service)
         {
             _context = context;
+            _service = service;
         }
 
         // GET: api/EventDetails
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EventDetail>>> GetEventDetails()
+        public async Task<ActionResult<IEnumerable<EventDetailViewModel>>> GetEventDetails()
         {
-            return await _context.EventDetails.ToListAsync();
+            var details = await _service.GetEventDetails();
+            return details;
+            //return await _context.EventDetails.ToListAsync();
         }
 
         // GET: api/EventDetails/5

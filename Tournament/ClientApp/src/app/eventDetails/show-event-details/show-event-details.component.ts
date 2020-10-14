@@ -80,7 +80,7 @@ export class ShowEventDetailsComponent implements OnInit {
     //    this.EventDetailList = data;
     //    this.TournamentListWithoutFilter = data;
     //  }));
-    interval(1000).subscribe(() => this.service.getEventDetails().subscribe(data => {
+    interval(5000).subscribe(() => this.service.getEventDetails().subscribe(data => {
       this.EventDetailList = data;
       this.TournamentListWithoutFilter = data;
     }));

@@ -7,6 +7,8 @@
   <thead>
     <tr>
       <th>Event Detail ID</th>
+      <th>Event Name</th>
+      <th>Event Status</th>
       <th>Event Detail Name</th>
       <th>Event Detail Number</th>
       <th>Event Detail Odds</th>
@@ -18,13 +20,15 @@
   <tbody>
     <tr *ngFor="let eventdetail of EventDetailList">
       <td>{{ eventdetail.eventDetailID }}</td>
+      <td>{{ eventdetail.eventName }}</td>
+      <td>{{ eventdetail.eventDetailStatusName }}</td>
       <td>{{ eventdetail.eventDetailName }}</td>
       <td>{{ eventdetail.eventDetailNumber }}</td>
       <td>{{ eventdetail.eventDetailOdd }}</td>
       <td>{{ eventdetail.finishingPosition }}</td>
       <td>{{ eventdetail.firstTimer }}</td>
       <td *ngIf="isAuthenticated | async">
-        <button  type="button" class="btn btn-light mr-1"
+        <button type="button" class="btn btn-light mr-1"
                 data-toggle="modal" data-target="#exampleModal"
                 (click)="editEventDetail(eventdetail)"
                 data-backdrop="static" data-keyboard="false">
